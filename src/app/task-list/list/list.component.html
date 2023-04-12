@@ -1,0 +1,46 @@
+<div class="mt-2">
+  <app-render-add-button></app-render-add-button>
+  <ng-container *ngIf="tasks.length; else nothing">
+    <ul class="list-group">
+      <li
+        class="list-group-item"
+        *ngFor="
+          let item of tasks;
+          index as i;
+          odd as o;
+          even as e;
+          trackBy: trackByFn
+        "
+      >
+        <input
+          class="form-check-input me-1"
+          type="checkbox"
+          [checked]="item.isCompleted"
+          [id]="item.id"
+        />
+        <label [for]="item.id">
+          {{ item.title }} {{ i + 1 }} {{ o }}
+          <span [ngSwitch]="item.status">
+            <ng-template [ngSwitchCase]="'New'">New Task</ng-template>
+            <ng-template [ngSwitchCase]="'Completed'">Completed</ng-template>
+            <ng-template [ngSwitchCase]="'OnHold'"
+              >Required Approval</ng-template
+            >
+            <ng-template [ngSwitchCase]="'InProgress'"
+              >Working on it</ng-template
+            >
+
+            <!-- <span *ngSwitchCase="'New'">New Task</span>
+            <span *ngSwitchCase="'Completed'">Woohoo Completed!!</span>
+            <span *ngSwitchCase="'OnHold'">Need Manager's approval</span>
+            <span *ngSwitchCase="'InProgress'">Working on it</span> -->
+          </span>
+        </label>
+      </li>
+    </ul>
+  </ng-container>
+  <ng-template>Using Templates!!</ng-template>
+  <ng-container>Using Container!!</ng-container>
+  <ng-template #nothing> Do Tasks defined </ng-template>
+  <button class="btn btn-primary" (click)="clearMyTasks()">Clear Tasks</button>
+</div>

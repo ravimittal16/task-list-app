@@ -1,0 +1,56 @@
+<div class="p-2">
+  Add Task
+  <form
+    #taskForm="ngForm"
+    (ngSubmit)="onFormSubmit(taskForm)"
+    class="needs-validation"
+  >
+    <div class="row">
+      <div class="col">
+        <label class="form-label">Title</label>
+        <input
+          type="text"
+          name="title"
+          class="form-control"
+          required=""
+          ngModel
+          [ngModelOptions]="{ updateOn: 'blur' }"
+          #title="ngModel"
+        />
+        <ng-container *ngIf="title.invalid && title.touched">
+          <span class="invalid-state">Title is required</span>
+          <pre>{{ title.errors | json }}</pre>
+        </ng-container>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <label class="form-label">Description</label>
+        <textarea
+          rows="3"
+          ngModel
+          class="form-control"
+          name="description"
+          maxlength="200"
+          #description="ngModel"
+        ></textarea>
+        <!-- <input
+          type="text"
+          name="description"
+          class="form-control"
+          maxlength="200"
+          ngModel
+          #description="ngModel"
+        /> -->
+        <ng-container *ngIf="description.invalid && description.touched">
+          <span class="invalid-state" *ngIf="description.errors"
+            >Description should be only 200 characters.</span
+          >
+          <pre>{{ description.errors | json }}</pre>
+        </ng-container>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+    <pre>{{ taskForm.value | json }}</pre>
+  </form>
+</div>
