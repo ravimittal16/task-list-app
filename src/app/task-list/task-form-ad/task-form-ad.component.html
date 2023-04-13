@@ -1,0 +1,23 @@
+<div class="p-3">
+  <form #taskForm="ngForm">
+    <div class="row">
+      <div class="col">
+        <label class="form-label">Title</label>
+        <input type="text" name="title" ngModel required="" #title="ngModel" />
+
+        <pre>Valid {{ title.valid }}</pre>
+        <pre>invalid {{ title.invalid }}</pre>
+        <pre>Touched {{ title.touched }}</pre>
+        <pre>Dirty {{ title.dirty }}</pre>
+
+        <ng-container *ngIf="title.invalid && title.touched">
+          <span class="invalid-state">Title is required</span>
+          <pre>{{ title.errors | json }}</pre>
+        </ng-container>
+      </div>
+    </div>
+    <pre>
+        {{ taskForm.value | json }}
+    </pre>
+  </form>
+</div>

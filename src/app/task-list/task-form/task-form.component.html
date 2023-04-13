@@ -13,10 +13,17 @@
           name="title"
           class="form-control"
           required=""
+          appErrorWord="Supplied a default value"
           ngModel
           [ngModelOptions]="{ updateOn: 'blur' }"
           #title="ngModel"
+          #errorWord="errorword"
         />
+
+        <span (mouseenter)="errorWord.show()" (mouseleave)="errorWord.hide()"
+          >ANGULAR</span
+        >
+
         <ng-container *ngIf="title.invalid && title.touched">
           <span class="invalid-state">Title is required</span>
           <pre>{{ title.errors | json }}</pre>

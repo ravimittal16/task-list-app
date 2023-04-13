@@ -1,0 +1,12 @@
+<div class="card">
+  <div class="card-header">
+    <ng-content select=".header"></ng-content>
+  </div>
+  <div class="card-body">
+    <ng-content select="span"></ng-content>
+  </div>
+  <div class="card-footer">
+    <ng-content select="app-global-login-check"></ng-content>
+  </div>
+  <button class="btn btn-warning" (click)="onButtonClicked()">Warning</button>
+</div>
