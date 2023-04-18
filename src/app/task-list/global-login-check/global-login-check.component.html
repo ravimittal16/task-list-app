@@ -1,1 +1,6 @@
-<input type="checkbox" />Remember Me
+<input
+  type="checkbox"
+  [id]="componentId"
+  (change)="onCheckboxStateChanged(checkbox.checked)"
+  #checkbox
+/>Remember Me

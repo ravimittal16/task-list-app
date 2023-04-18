@@ -8,6 +8,7 @@ import { TaskFormAdComponent } from './task-form-ad/task-form-ad.component';
 import { ErrorWordDirective } from './error-word.directive';
 import { SmartFormContainerComponent } from './smart-form-container/smart-form-container.component';
 import { GlobalLoginCheckComponent } from './global-login-check/global-login-check.component';
+import { CheckboxStateListenerComponent } from '../checkbox-state-listener/checkbox-state-listener.component';
 
 const _components = [
   ListComponent,
@@ -15,6 +16,7 @@ const _components = [
   TaskFormAdComponent,
   SmartFormContainerComponent,
   GlobalLoginCheckComponent,
+  CheckboxStateListenerComponent,
 ];
 
 @NgModule({
