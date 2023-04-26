@@ -1,0 +1,50 @@
+<div>
+  <form [formGroup]="taskFormGroup">
+    <div class="form-group">
+      <input
+        class="form-control"
+        formControlName="productName"
+        placeholder="Product TItle"
+      />
+      <ng-container
+        *ngIf="isTouched('productName') && isRequired('productName')"
+      >
+        <span class="text-danger"> Product name is required </span>
+      </ng-container>
+    </div>
+    <div class="form-group mt-2">
+      <textarea
+        formControlName="description"
+        rows="6"
+        class="form-control"
+      ></textarea>
+
+      <div class="row">
+        <div class="col-12" formArrayName="productTags">
+          <ng-container *ngFor="let tag of productTagsRef; index as i">
+            <div [formGroupName]="i" class="mt-1">
+              <input
+                type="text"
+                placeholder="Product Tag Name"
+                class="form-control"
+                formControlName="productTag"
+              />
+            </div>
+          </ng-container>
+        </div>
+        <div class="col-12 mt-2">
+          <button class="btn btn-info" (click)="addProductTagControl()">
+            Create Product Tag
+          </button>
+        </div>
+      </div>
+    </div>
+    <pre>{{ taskFormGroup.value | json }}</pre>
+    <pre>Valid {{ taskFormGroup.valid }}</pre>
+    <div class="mt-2">
+      <button class="btn btn-primary" type="submit" (click)="onSubmitForm()">
+        Create Product
+      </button>
+    </div>
+  </form>
+</div>
