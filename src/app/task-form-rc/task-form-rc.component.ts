@@ -1,6 +1,13 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { debounceTime } from 'rxjs';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { Observable, debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-task-form-rc',
@@ -9,7 +16,32 @@ import { debounceTime } from 'rxjs';
 })
 export class TaskFormRcComponent implements OnInit {
   taskFormGroup!: FormGroup;
-  constructor(private _fb: FormBuilder) {}
+  products!: any;
+  products$!: Observable<any>;
+  private _restrictedNames = [
+    'city',
+    'you',
+    'user',
+    'todo',
+    'product',
+    'control',
+    'name',
+  ];
+
+  constructor(private _fb: FormBuilder, private _httpClient: HttpClient) {}
+
+  private checkUniqueProductName(controlRef: AbstractControl | null) {
+    console.log(controlRef?.value);
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        var controlVal = controlRef?.value;
+        if (controlVal && this._restrictedNames.indexOf(controlVal) > -1) {
+          return resolve({ hasRestrictedName: true });
+        }
+        return resolve(null);
+      }, 1000);
+    });
+  }
 
   //this will return me the Form Array Field Controls
 
@@ -21,9 +53,9 @@ export class TaskFormRcComponent implements OnInit {
     const isTocuched = this.taskFormGroup.get(fieldName)?.touched;
     return isTocuched;
   }
-  isRequired(fieldName: string) {
+  isRequired(fieldName: string, errorKey: string) {
     const _fieldField = this.taskFormGroup.get(fieldName);
-    return _fieldField?.hasError('required') && _fieldField.dirty;
+    return _fieldField?.hasError(errorKey) && _fieldField.dirty;
   }
 
   addProductTagControl() {
@@ -38,8 +70,13 @@ export class TaskFormRcComponent implements OnInit {
     console.log(_formValue);
   }
 
-  ngOnInit(): void {
+  private _getProducts() {
+    this.products$ = this._httpClient.get('https://fakestoreapi.com/products');
+  }
+
+  ngOnInit() {
     this._initFormGroup();
+    this._getProducts();
     //If you want to watch the values changes on your formgroup, you can do like below snippet
     this.taskFormGroup.valueChanges
       .pipe(debounceTime(1000)) //debounceTime is from rxjs
@@ -50,9 +87,16 @@ export class TaskFormRcComponent implements OnInit {
   //productTags = [{productTag:'HELLO'},{productTag:'Low Inventory'}]
   private _initFormGroup() {
     this.taskFormGroup = this._fb.group({
-      productName: ['', [Validators.required]],
+      productName: [
+        '',
+        [Validators.required],
+        [this.checkUniqueProductName.bind(this)],
+      ],
       description: [''],
       productTags: this._fb.array([]),
+      productPrice: [5],
+      productPriceOne: [15],
+      selectedProduct: [null],
     });
   }
 }
